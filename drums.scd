@@ -50,13 +50,16 @@ t = Task({ {
 t.start;
 
 
-SynthDef(\drone, { arg freq = 440, amp = 1.0, outbus = 0, phase = 0;
-	var out;
-	out = LFPulse.ar(freq , 0.15);
-    Out.ar(outbus, out);
+SynthDef(\drone, { arg freq = 110;
+    Out.ar(0, SinOsc.ar(freq , 0.15));
 }).add;
 
-s = Synth(\drone);
-s.start;
-s.stop;
-t.stop;
+
+r = Routine {
+  t.start
+  t.stop;
+  s = Synth(\drone);
+  s.start;
+  s.set("freq", 190);
+  s.free;
+}
