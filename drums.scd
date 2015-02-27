@@ -47,5 +47,16 @@ t = Task({ {
   Synth(\clap);
   1.wait;
 }.loop});
-
 t.start;
+
+
+SynthDef(\drone, { arg freq = 440, amp = 1.0, outbus = 0, phase = 0;
+	var out;
+	out = LFPulse.ar(freq , 0.15);
+    Out.ar(outbus, out);
+}).add;
+
+s = Synth(\drone);
+s.start;
+s.stop;
+t.stop;
